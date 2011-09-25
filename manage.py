@@ -25,7 +25,7 @@ elif mode == "add":
 	keystream_name = raw_input("Name of keystream: ").strip()
 	new_keystream = keystreams.Keystream(keystream_name)
 	print "Successfully added new keystream. Total number of keystreams: %d" % len(keystreams.total)
-	print "To encypt a message using this keystream, run python echocrypt.py e \"message to encrypt\" -k \"%s\"" % keystream_name
+	print "To encypt a message using this keystream, run python echocrypt.py e \"message to encrypt\" \"%s\"" % keystream_name
 elif mode == "delete":
 	keystream_name = raw_input("Name of keystream to delete: ")
 	keystream = keystreams.total[keystream_name].delete()
