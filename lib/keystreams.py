@@ -18,10 +18,10 @@ class Keystream:
 		self.name = name
 		# Add it to the dictionary containing all the keystreams
 		total[name] = self
-
 		# Get some random tracks from the specified catalog UNLESS track_ids is specified
 		if track_ids:
-			self.tracks = [track.track_from_id(track_id) for track_id in track_ids]
+			# FIXME make sure list contains no empty strings in the first place
+			self.tracks = [track.track_from_id(track_id) for track_id in track_ids if track_id != '']
 		else:
 			self.tracks = echonest.get_catalog_tracks()
 		tracks_data = [echonest.get_track_data(each_track) for each_track in self.tracks]
