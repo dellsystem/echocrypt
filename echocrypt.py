@@ -1,10 +1,50 @@
 # encoding: utf-8
 import sys
-import cPickle as pickle
-import utils
+import random
+from lib import keystreams
+
+def error(message):
+	print message
+	print "Usage: python echocrypt.py [e|d] \"message\" [keystream name]"
+	exit(1)
 
 mode = sys.argv[1]
 
+if mode == 'e':
+	# If the keystream to use is specified, use that one; otherwise, use a random one in the dictionary
+	try:
+		keystream_name = sys.argv[3]
+	except IndexError:
+		keystream_name = random.choice(keystreams.total.keys())
+
+	keystream = keystreams.total[keystream_name]
+	try:
+		message = sys.argv[2]
+	except IndexError:
+		error("You must specify a message to encrypt.")
+
+	ciphertext = keystream.encrypt(message)
+	print ciphertext
+
+elif mode == 'd':
+	try:
+		message = sys.argv[2]
+	except IndexError:
+		error("You must specify a message to decrypt.")
+
+	# Keystream name must be specified in this case
+	try:
+		keystream_name = sys.argv[3]
+	except IndexError:
+		error("You must specify a keystream to decrypt with.")
+
+	keystream = keystreams.total[keystream_name]
+
+	plaintext = keystream.decrypt(message)
+	print plaintext
+	
+
+"""
 if mode == 'e' or mode == 'a':
 	message = sys.argv[2]
 	bin_message = utils.bin_from_string(message) if mode == 'e' else message
@@ -36,3 +76,4 @@ elif mode == 's' or mode == 'd':
 		print ''.join(chars)
 	else:
 		print message
+"""

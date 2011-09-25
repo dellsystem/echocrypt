@@ -11,6 +11,7 @@ def bin_from_float(num):
 	return bin(int(lol))[2:]
 
 def do_something_weird(tracks_data):
+	print "in do_something_weird"
 	to_return = []
 	for i in xrange(4):
 		this_zip = zip(tracks_data[0][i], tracks_data[1][i], tracks_data[2][i], tracks_data[3][i])
@@ -18,13 +19,6 @@ def do_something_weird(tracks_data):
 		to_return.append(this_list)
 	return to_return
 
-def generate_keystream(catalog):
-	"""
-	Takes a catalog id and generates four bit sequences.
-	"""
-	tracks = [echonest.get_track_data(track) for track in echonest.get_catalog_tracks(catalog)]
-	print tracks
-	return do_something_weird(tracks)
 
 def bin_from_string(s):
 	chars = []

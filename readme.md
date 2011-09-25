@@ -29,9 +29,6 @@ lib/
 			- will return: a list of lists of floats
 	personal_catalog_scanner.py
 	settings.py
-	temp_db.py
-		* keystreams, dict:
-			id: keystream, etc
 tests/
 	test_utils.py
 		* test_bin_from_float(self):
