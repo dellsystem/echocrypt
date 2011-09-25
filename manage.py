@@ -57,5 +57,11 @@ elif mode == "info":
 			print "Artist: %s; Song: %s; ID: %s" % (track.artist, track.title, track.id)
 		print "Number of characters left: %d" % keystreams.total[keystream].get_chars_left()
 		print
+elif mode == "reset":
+	keystream_name = raw_input("Name of keystream whose pointers you want to reset: ").strip()
+	try:
+		keystreams.total[keystream_name].reset()
+	except KeyError:
+		print "Invalid keystream name"
 else:
 	error("Invalid mode.")
