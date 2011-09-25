@@ -16,6 +16,7 @@ if mode == 'e':
 		keystream_name = sys.argv[3]
 	except IndexError:
 		keystream_name = random.choice(keystreams.total.keys())
+        print "Using keystream: %s" % keystream_name
 
 	keystream = keystreams.total[keystream_name]
 	try:
