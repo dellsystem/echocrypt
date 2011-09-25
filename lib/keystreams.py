@@ -63,7 +63,7 @@ class Keystream:
 
 	# Returns the number of characters left for decrypting (not encrypting)
 	def get_chars_left(self):
-		return len(self.bitstreams) - self.encrypt_pointer
+		return len(self.bitstream) - self.encrypt_pointer
 
 	def delete(self):
 		del total[self.name]

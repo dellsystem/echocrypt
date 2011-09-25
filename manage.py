@@ -35,6 +35,8 @@ elif mode == "info":
 	for keystream in keystreams.total:
 		print keystream
 		print "---------"
+		print "Tracks:" 
+		print keystreams.total[keystream].tracks
 		print "Number of characters left: %d" % keystreams.total[keystream].get_chars_left()
 else:
 	error("Invalid mode.")
