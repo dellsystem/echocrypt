@@ -1,6 +1,7 @@
 from pyechonest import config
 config.ECHO_NEST_API_KEY="EAEJJFF8SZIGOKH2J"
 from pyechonest import song, track, catalog, playlist
+# CAFAHCC1329DCB5C35 catalogue thing lol
 
 def get_track_data(t):
 	data = [t.beats, t.bars, t.tatums, t.segments]
