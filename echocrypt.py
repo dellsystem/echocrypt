@@ -5,9 +5,9 @@ import utils
 
 mode = sys.argv[1]
 
-if mode == 'e':
+if mode == 'e' or mode == 'a':
 	message = sys.argv[2]
-	bin_message = utils.bin_from_string(message)
+	bin_message = utils.bin_from_string(message) if mode == 'e' else message
 	num_chars = len(bin_message)
 
 	total_keystream = pickle.load(open("keystreams"))
@@ -22,14 +22,17 @@ if mode == 'e':
 
 	ciphertext = bin(int(bin_message, 2) + int(keystream, 2))[2:]
 	print ciphertext
-elif mode == 'd':
+elif mode == 's' or mode == 'd':
 	ciphertext = sys.argv[2]
 	keystream = pickle.load(open("keystream_used"))
 	message = bin(int(ciphertext, 2) - int(keystream, 2))[2:]
-	num_bits = len(message) / 7
-	chars = []
-	for i in xrange(num_bits):
-		char = chr(int(message[i*7:(i+1)*7], 2))
-		chars.append(char)
+	if mode == 's':
+		num_bits = len(message) / 7
+		chars = []
+		for i in xrange(num_bits):
+			char = chr(int(message[i*7:(i+1)*7], 2))
+			chars.append(char)
 
-	print ''.join(chars)
+		print ''.join(chars)
+	else:
+		print message
