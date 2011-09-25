@@ -5,7 +5,7 @@ from lib import keystreams
 #N6E4NIOVYMTHNDM8J
 def error(message):
 	print message
-	print "Usage: python manage.py [setup|add|delete|info]"
+	print "Usage: python manage.py [setup|new|add|delete|info]"
 	exit(1)
 
 if len(sys.argv) < 2:
@@ -21,11 +21,28 @@ if mode == "setup":
 		music_dir = raw_input("Enter the absolute path to your music directory.").strip()
 		personal_catalog_scanner.run("library", music_dir)
 		print "Replace the existing seed_catalog_id in settings.py with the one generated above. After that, run python manage.py add to add a keystream."
-elif mode == "add":
+elif mode == "new":
+	print "Generating a new random key"
+	print "---------------------------"
 	keystream_name = raw_input("Name of keystream: ").strip()
 	new_keystream = keystreams.Keystream(keystream_name)
 	print "Successfully added new keystream. Total number of keystreams: %d" % len(keystreams.total)
 	print "To encypt a message using this keystream, run python echocrypt.py e \"message to encrypt\" \"%s\"" % keystream_name
+elif mode == "add":
+	print "Create a key based on a specific list of tracks"
+	print "Enter the ID of each track, followed by a new line. Enter an empty line to stop."
+	track_ids = []
+	# So terrible
+	track_id = raw_input("Track ID: ").strip()
+	track_ids.append(track_id)
+
+	while track_id != '':
+		track_id = raw_input("Track ID: ").strip()
+		track_ids.append(track_id)
+	# Now create a new keystream from those track IDs
+	keystream_name = raw_input("Name of keystream: ").strip()
+	new_keystream = keystreams.Keystream(keystream_name, track_ids=track_ids)
+	print "Successfully added new keystream. Total number of keystreams: %d" % len(keystreams.total)
 elif mode == "delete":
 	keystream_name = raw_input("Name of keystream to delete: ")
 	keystream = keystreams.total[keystream_name].delete()
@@ -36,7 +53,9 @@ elif mode == "info":
 		print keystream
 		print "---------"
 		print "Tracks:" 
-		print keystreams.total[keystream].tracks
+		for track in keystreams.total[keystream].tracks:
+			print "Artist: %s; Song: %s; ID: %s" % (track.artist, track.title, track.id)
 		print "Number of characters left: %d" % keystreams.total[keystream].get_chars_left()
+		print
 else:
 	error("Invalid mode.")

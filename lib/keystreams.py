@@ -11,13 +11,16 @@ def repickle():
 	file.close()
 
 class Keystream:
-	def __init__(self, name):
+	def __init__(self, name, track_ids=None):
 		self.name = name
 		# Add it to the dictionary containing all the keystreams
 		total[name] = self
 
-		# Get some random tracks from the specified catalog
-		self.tracks = echonest.get_catalog_tracks()
+		# Get some random tracks from the specified catalog UNLESS track_ids is specified
+		if track_ids:
+			self.tracks = [track.track_from_id(track_id) for track_id in track_ids]
+		else:
+			self.tracks = echonest.get_catalog_tracks()
 		tracks_data = [echonest.get_track_data(track) for track in self.tracks]
 		# This should be fixed - don't save the raw track data, just save the track names etc
 		self.bitstream = '0'.join(['0'.join(x) for x in utils.do_something_weird(tracks_data)])
