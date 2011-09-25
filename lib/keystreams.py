@@ -75,6 +75,7 @@ class Keystream:
 	def reset(self):
 		self.encrypt_pointer = 0
 		self.decrypt_pointer = 0
+		repickle()
 
 try:
 	file = open(filename, 'rb')
