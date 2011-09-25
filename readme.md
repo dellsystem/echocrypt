@@ -23,10 +23,10 @@ lib/
 		* generate_keystreams(catalog):
 			- add together all the strings, return 4 combined "bit sequences"
 	echonest.py
-		* get_catalog_songs(self, catalog):
+		* get_catalog_tracks(catalog):
 			- give it a catalog ID, will get 4 songs from that catalog
-		* get_track_data(self, song):
-			- will return: a list of strings ("bit sequences")
+		* get_track_data(track):
+			- will return: a list of strings ("bit sequences") for that track
 	personal_catalog_scanner.py
 	settings.py
 tests/
