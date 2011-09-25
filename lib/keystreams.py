@@ -1,6 +1,9 @@
 import utils
 import echonest
 import cPickle as pickle
+from pyechonest import config, track
+import settings
+config.ECHO_NEST_API_KEY=settings.api_key
 
 filename = "data/keystreams" # for storing total
 
@@ -21,7 +24,7 @@ class Keystream:
 			self.tracks = [track.track_from_id(track_id) for track_id in track_ids]
 		else:
 			self.tracks = echonest.get_catalog_tracks()
-		tracks_data = [echonest.get_track_data(track) for track in self.tracks]
+		tracks_data = [echonest.get_track_data(each_track) for each_track in self.tracks]
 		# This should be fixed - don't save the raw track data, just save the track names etc
 		self.bitstream = '0'.join(['0'.join(x) for x in utils.do_something_weird(tracks_data)])
 		self.encrypt_pointer = 0
