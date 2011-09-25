@@ -26,7 +26,6 @@ class Keystream:
 		repickle()
 
 	def encrypt(self, message):
-		self.reset()
 		bin_message = utils.bin_from_string(message)
 		num_chars = len(bin_message)
 		keystream_used = self.bitstream[self.encrypt_pointer:self.encrypt_pointer+num_chars]
@@ -44,22 +43,20 @@ class Keystream:
 		"""
 		try:
 			keystream_used = self.bitstream[self.decrypt_pointer:self.decrypt_pointer+len(ciphertext)-1]
-			print "keystream used: "
-			print keystream_used
 			message = bin(int(ciphertext, 2) - int(keystream_used, 2))[2:]
+			self.decrypt_pointer += len(ciphertext) - 1 # lol
 		except ValueError: # I'M NOT SURE IF THIS IS NECESSARY BUT JUST IN CASE
 			keystream_used = self.bitstream[self.decrypt_pointer:self.decrypt_pointer+len(ciphertext)-2]
 			message = bin(int(ciphertext, 2) - int(keystream_used, 2))[2:]
-		print "message:"
-		print message
+			self.decrypt_pointer += len(ciphertext) - 2 # lol
 		num_bits = len(message) / 7
 		chars = []
 		for i in xrange(num_bits):
 			char = chr(int(message[i*7:(i+1)*7], 2))
 			chars.append(char)
 
-		print ''.join(chars)
-		#repickle()
+		return ''.join(chars)
+		repickle()
 
 	# Returns the number of characters left for decrypting (not encrypting)
 	def get_chars_left(self):
